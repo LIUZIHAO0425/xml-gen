@@ -1,10 +1,17 @@
 import asyncio  
+import os
+from openai import OpenAI
+from dotenv import load_dotenv
 from mcp import ClientSession  #mcp会话管理
 from contextlib import AsyncExitStack  #资源管理，退出后释放资源
 
+# 加载 .venv文件，确保apikey收到保护
+load_dotenv() 
+
 class MCPClient:
     def __init__(self):
-        self.session = None     #先不链接mcp服务器
+        self.openai_api_key = os.getenv("OPENAI_API_KEY")  #读取openai key
+        self.base_url = os.getenv("BASE_URL")  #读取base url
         self.exit_stack = AsyncExitStack()    
         """ 初始化退出栈 """
 
